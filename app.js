@@ -1,5 +1,5 @@
 require('dotenv').config()
-
+console.log(process.env.NT_TEST);
 const NotionAPI = require('./module/db.js');
 const nClient = new NotionAPI();
 
