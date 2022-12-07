@@ -55,7 +55,7 @@ const main = async () => {
       const editTimeJP = dayjs(update.block.last_edited_time).tz().format('YYYY-MM-DD HH:mm:ss');
       if(dayjs(editTimeJP).isBetween(towHAgo, currentTime)){
         console.log(`1時間以内の変更あり`);
-        sendMsg += `[${update.studentName}]さんのNotionページで更新ありました。最終更新は${editTimeJP}です。「${update.block.text}」 \n`;
+        sendMsg += `[最終更新: ${editTimeJP}] ${update.studentName}さんのNotionページ( ${update.url} )で更新がありました。 ${update.block.text} \n`;
         // console.log(sendMsg);
       }else{
         console.log(`1時間以内の変更なし`);
@@ -65,6 +65,8 @@ const main = async () => {
 
     //Discordに投稿
     const discordPostData = {
+      avatar_url: 'https://i.gyazo.com/8b29a2b82201f0974a42d51cfa6ad66a.png',
+      // avatar_url: "https://i.gyazo.com/558634c1c09a399b2c20116c80e75cae.png",
       username: 'Notion通知',
       content: sendMsg
     }

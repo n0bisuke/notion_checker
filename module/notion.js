@@ -24,10 +24,10 @@ class NotionAPI {
         result.type = lastEditedBlock.type;
         result.content = lastEditedBlock[result.type];
 
-        if(result.content?.rich_text){
+        if(result.content?.rich_text && result?.content?.rich_text[0]?.plain_text){
             result.text = result?.content?.rich_text[0].plain_text;
         }else{
-            result.text = '';
+            result.text = ''; //うまく取得できなかった
         }
         result.last_edited_time = lastEditedBlock.last_edited_time;
         result.body = lastEditedBlock;
