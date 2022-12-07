@@ -35,8 +35,8 @@ const main = async () => {
         block: lastEditedBlock
       }
       
-      console.log(item);
-      console.log(`---`);
+      // console.log(item);
+      // console.log(`---`);
 
       updateList.push(item);
     }
