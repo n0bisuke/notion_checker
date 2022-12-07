@@ -42,7 +42,7 @@ jobs:
     # 実際のコマンド
     - name: start action...
       run: > 
-        NT_STUDENT_DB_ID=${{secrets.NT_STUDENT_ID}}
+        NT_STUDENT_DB_ID=${{secrets.NT_STUDENT_DB_ID}}
         NT_LOG_DB_ID=${{secrets.NT_LOG_DB_ID}}
         NT_API_KEY=${{secrets.NT_API_KEY}}
         NT_TEST=${{secrets.NT_TEST}}
