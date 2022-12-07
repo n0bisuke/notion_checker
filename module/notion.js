@@ -2,7 +2,6 @@ const { Client } = require("@notionhq/client")
 const studentDBId = process.env.NT_STUDENT_DB_ID; //自身の利用するデータベースID
 const notion = new Client({auth: process.env.NT_API_KEY}); //Notion API KEY
 
-
 class NotionAPI {
     // #privatemethod() {
     //   return "privatemethod";

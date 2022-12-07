@@ -1,6 +1,6 @@
 require('dotenv').config()
 
-const NotionAPI = require('./module/db.js');
+const NotionAPI = require('./module/notion.js');
 const discrod = require('./module/discord.js');
 const nClient = new NotionAPI();
 
@@ -18,7 +18,10 @@ const main = async () => {
     for await (const item of items) {
       const blockId = item.id;
       const items = await nClient.getBlocks(blockId);
-      items.results.studentName = item.properties.Name.title[0].plain_text; //名前
+
+      items.results.studentName = item.properties.Name.title[0].plain_text; //名前追加
+      items.results.url = item.url; //URL追加
+
       users.push(items.results);
     }
     
@@ -28,8 +31,13 @@ const main = async () => {
       const lastEditedBlock = nClient.getLastEditedBlok(user); //最新の変更があったブロックを取得
       const item = {
         studentName: user.studentName,
+        url: user.url,
         block: lastEditedBlock
       }
+      
+      console.log(item);
+      console.log(`---`);
+
       updateList.push(item);
     }
 
@@ -39,24 +47,28 @@ const main = async () => {
     const towHAgo = dayjs(currentTime).subtract(2, 'h').format(); //2時間前の時間
     console.log(`現在時間:`,currentTime);
     console.log(`2時間前：`, towHAgo);
+    console.log(`------`)
 
+    let sendMsg = '';
     for (update of updateList){
       
       const editTimeJP = dayjs(update.block.last_edited_time).tz().format('YYYY-MM-DD HH:mm:ss');
       if(dayjs(editTimeJP).isBetween(towHAgo, currentTime)){
-        console.log(`2時間以内の変更:`);
-        const text = `[${update.studentName}]さんの最終更新は${editTimeJP}です。 内容は「${update.block.text}」`;
-        const discordPostData = {
-            username: 'Notion通知',
-            content: text
-        }
-        await discrod(discordPostData);
-        console.log(text);
+        console.log(`2時間以内の変更あり`);
+        sendMsg += `[${update.studentName}]さんのNotionページで更新ありました。最終更新は${editTimeJP}です。「${update.block.text}」 \n`;
+        // console.log(sendMsg);
       }else{
-        console.log(`それ以外:`);
+        console.log(`2時間以内の変更なし`);
+        // console.log(`それ以外:`);
       }
-
     }
+
+    //Discordに投稿
+    const discordPostData = {
+      username: 'Notion通知',
+      content: sendMsg
+    }
+    await discrod(discordPostData);
 }
 
 main();
