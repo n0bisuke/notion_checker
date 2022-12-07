@@ -44,9 +44,9 @@ const main = async () => {
     //時間を確認
     const now = dayjs(); // 現在の日付情報を取得
     const currentTime = now.tz().format('YYYY-MM-DD HH:mm:ss');
-    const towHAgo = dayjs(currentTime).subtract(2, 'h').format(); //2時間前の時間
+    const towHAgo = dayjs(currentTime).subtract(1, 'h').format(); //2時間前の時間
     console.log(`現在時間:`,currentTime);
-    console.log(`2時間前：`, towHAgo);
+    console.log(`1時間前：`, towHAgo);
     console.log(`------`)
 
     let sendMsg = '';
@@ -54,11 +54,11 @@ const main = async () => {
       
       const editTimeJP = dayjs(update.block.last_edited_time).tz().format('YYYY-MM-DD HH:mm:ss');
       if(dayjs(editTimeJP).isBetween(towHAgo, currentTime)){
-        console.log(`2時間以内の変更あり`);
+        console.log(`1時間以内の変更あり`);
         sendMsg += `[${update.studentName}]さんのNotionページで更新ありました。最終更新は${editTimeJP}です。「${update.block.text}」 \n`;
         // console.log(sendMsg);
       }else{
-        console.log(`2時間以内の変更なし`);
+        console.log(`1時間以内の変更なし`);
         // console.log(`それ以外:`);
       }
     }
