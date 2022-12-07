@@ -3,9 +3,9 @@ const studentDBId = process.env.NT_STUDENT_DB_ID; //自身の利用するデー�
 const notion = new Client({auth: process.env.NT_API_KEY}); //Notion API KEY
 
 class NotionAPI {
-    #privatemethod() {
-      return "privatemethod";
-    }
+    // #privatemethod() {
+    //   return "privatemethod";
+    // }
 
     getLastEditedBlok(obj){
         //ソート
@@ -14,7 +14,7 @@ class NotionAPI {
         }).sort(function(a, b) {
             return (a.last_edited_time > b.last_edited_time) ? -1 : 1;  //オブジェクトの昇順ソート
         });
-        
+
         //ソートして最新の1件
         const lastEditedBlock = sorted[0];
         // console.log(lastEditedBlock);
