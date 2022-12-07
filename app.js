@@ -4,6 +4,10 @@ const NotionAPI = require('./module/db.js');
 const nClient = new NotionAPI();
 
 const dayjs = require('dayjs');
+dayjs.extend(require('dayjs/plugin/timezone'))
+dayjs.extend(require('dayjs/plugin/utc'))
+dayjs.tz.setDefault('Asia/Tokyo')
+
 const now = dayjs(); // 現在の日付情報を取得
 
 console.log(`現在時間`,now.format());
