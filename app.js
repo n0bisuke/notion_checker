@@ -10,7 +10,7 @@ dayjs.tz.setDefault('Asia/Tokyo')
 
 const now = dayjs(); // 現在の日付情報を取得
 
-console.log(`現在時間`,now.format());
+console.log(`現在時間`,now.format('YYYY-MM-DD HH:mm:ss'));
 
 // Initializing a client
 const main = async () => {
