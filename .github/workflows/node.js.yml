@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
@@ -26,6 +26,23 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+
+    # キャッシュ
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: npm-${{ hashFiles('package-lock.json') }} 
+        restore-keys: npm-
+
+    # インストール
+    - name: yarn install command
+      run: yarn install
+    
+    # 実際のコマンド
+    - name: start action...
+      run: > 
+        NT_STUDENT_DB_ID=${{secrets.NT_STUDENT_ID}}
+        NT_LOG_DB_ID=${{secrets.NT_LOG_DB_ID}}
+        NT_API_KEY=${{secrets.NT_API_KEY}}
+        yarn start

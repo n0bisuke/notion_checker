@@ -8,19 +8,28 @@ class NotionAPI {
     }
 
     getLastEditedBlok(obj){
+        //ソート
         const sorted = Object.keys(obj).map(function(key) {
             return obj[key];
         }).sort(function(a, b) {
             return (a.last_edited_time > b.last_edited_time) ? -1 : 1;  //オブジェクトの昇順ソート
         });
-
-        const lastEditedBlock = sorted[1];
+        
+        //ソートして最新の1件
+        const lastEditedBlock = sorted[0];
+        // console.log(lastEditedBlock);
+        // // console.log(`------`);
 
         const result = {};
-
         result.type = lastEditedBlock.type;
         result.content = lastEditedBlock[result.type];
-        result.text = result.content.rich_text[0].plain_text;
+
+        if(result.content?.rich_text){
+            result.text = result?.content?.rich_text[0].plain_text;
+        }else{
+            result.text = '';
+        }
+        result.last_edited_time = lastEditedBlock.last_edited_time;
         result.body = lastEditedBlock;
 
         return result; //最新の一つ
@@ -29,7 +38,7 @@ class NotionAPI {
     async getBlocks(blockId){
         const res = await notion.blocks.children.list({
             block_id: blockId,
-            page_size: 50,
+            page_size: 100,
         });
 
         return res;
