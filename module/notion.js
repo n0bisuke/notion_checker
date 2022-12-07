@@ -7,7 +7,13 @@ class NotionAPI {
     //   return "privatemethod";
     // }
 
-    getLastEditedBlok(obj){
+    async getUserById(userId){
+        const response = await notion.users.retrieve({ user_id: userId });
+        // console.log(response);
+        return response;
+    }
+
+    async getLastEditedBlok(obj){
         //ソート
         const sorted = Object.keys(obj).map(function(key) {
             return obj[key];
@@ -17,19 +23,27 @@ class NotionAPI {
 
         //ソートして最新の1件
         const lastEditedBlock = sorted[0];
+        const editedUser = await this.getUserById(lastEditedBlock.last_edited_by.id); //最終更新者
+
         // console.log(lastEditedBlock);
-        // // console.log(`------`);
+        // console.log(`------`);
+        // // console.log(editedUser.name);
+        // console.log(`/////////`);
 
         const result = {};
+
         result.type = lastEditedBlock.type;
         result.content = lastEditedBlock[result.type];
+
+        result.last_edited_time = lastEditedBlock.last_edited_time;
+        result.last_edited_user = editedUser;
 
         if(result.content?.rich_text && result?.content?.rich_text[0]?.plain_text){
             result.text = result?.content?.rich_text[0].plain_text;
         }else{
             result.text = ''; //うまく取得できなかった
         }
-        result.last_edited_time = lastEditedBlock.last_edited_time;
+
         result.body = lastEditedBlock;
 
         return result; //最新の一つ
