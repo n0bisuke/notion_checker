@@ -1,5 +1,5 @@
 require('dotenv').config()
-console.log(process.env.NT_TEST);
+
 const NotionAPI = require('./module/db.js');
 const nClient = new NotionAPI();
 
@@ -9,8 +9,7 @@ dayjs.extend(require('dayjs/plugin/utc'))
 dayjs.tz.setDefault('Asia/Tokyo')
 
 const now = dayjs(); // 現在の日付情報を取得
-
-console.log(`現在時間`,now.format('YYYY-MM-DD HH:mm:ss'));
+console.log(`現在時間`,now.tz().format('YYYY-MM-DD HH:mm:ss'));
 
 // Initializing a client
 const main = async () => {
@@ -36,7 +35,7 @@ const main = async () => {
       updateList.push(item);
     }
 
-    const editTimeJP = dayjs(updateList[1].block.last_edited_time).format('YYYY-MM-DD HH:mm:ss');
+    const editTimeJP = dayjs(updateList[1].block.last_edited_time).tz().format('YYYY-MM-DD HH:mm:ss');
     // console.log()
     console.log(`[${updateList[1].studentName}]さんの最終更新は${editTimeJP}です。 内容は「${updateList[1].block.text}」`);
 }
