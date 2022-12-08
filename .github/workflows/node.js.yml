@@ -7,7 +7,7 @@ on:
   push:
     branches: [ "main" ]
   schedule:
-    - cron:  '32 * * * *'
+    - cron:  '0 */2 * * *'
 
 jobs:
   build:
@@ -46,4 +46,5 @@ jobs:
         NT_LOG_DB_ID=${{secrets.NT_LOG_DB_ID}}
         NT_API_KEY=${{secrets.NT_API_KEY}}
         DISCORD_WEBHOOK_URL=${{secrets.DISCORD_WEBHOOK_URL}}
+        DISCORD_WEBHOOK_URL_CI=${{secrets.DISCORD_WEBHOOK_URL_CI}}
         yarn start

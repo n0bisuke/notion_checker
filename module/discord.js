@@ -1,7 +1,12 @@
 'use strict'
 
 require('dotenv').config()
-const URL = process.env.DISCORD_WEBHOOK_URL;
+
+let URL = process.env.DISCORD_WEBHOOK_URL_CI;
+
+if(process.platform === `darwin`){
+    URL = process.env.DISCORD_WEBHOOK_URL;
+}
 
 const main = async (postData) => {
     //送信するデータ

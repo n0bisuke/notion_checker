@@ -44,9 +44,11 @@ const main = async () => {
     //時間を確認
     const now = dayjs(); // 現在の日付情報を取得
     const currentTime = now.tz().format('YYYY-MM-DD HH:mm:ss');
-    const oneHAgo = dayjs(currentTime).subtract(1, 'h').format('YYYY-MM-DD HH:mm:ss'); //2時間前の時間
+
+    const betweenH = 2; //2時間以内
+    const oneHAgo = dayjs(currentTime).subtract(betweenH, 'h').format('YYYY-MM-DD HH:mm:ss'); //2時間前の時間
     console.log(`現在時間:`, currentTime);
-    console.log(`1時間前:`, oneHAgo);
+    console.log(`${betweenH}時間前:`, oneHAgo);
     console.log(`------`)
 
     let sendMsg = '';
@@ -57,13 +59,13 @@ const main = async () => {
       const editTimeJP = dayjs(update.block.last_edited_time).tz().format('YYYY-MM-DD HH:mm:ss');
       console.log(update.block.last_edited_time,editTimeJP)
       if(dayjs(editTimeJP).isBetween(oneHAgo, currentTime)){
-        console.log(`1時間以内の変更あり`);
-        console.log(update)
+        console.log(`${betweenH}時間以内の変更あり`);
+        // console.log(update)
         sendMsg += `[最終更新: ${editTimeJP}] ${update.studentName}さんのNotionページ( ${update.url} )を${update.block.last_edited_user?.name}さんが更新。 ${update.block.text} \n`;
         // console.log(sendMsg);
         lastEditAvater = update.block.last_edited_user?.avatar_url; //Disocrd投稿するアバター
       }else{
-        console.log(`1時間以内の変更なし`);
+        console.log(`${betweenH}時間以内の変更なし`);
         // console.log(`それ以外:`);
       }
     }
