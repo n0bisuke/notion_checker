@@ -1,8 +1,7 @@
 require('dotenv').config()
 
 const CLASS = 'PO08'; //今期のクラス
-console.log(process.env.CODESPACES);
-return;
+
 const NotionAPI = require('./module/notion.js');
 const discrod = require('./module/discord.js');
 const nClient = new NotionAPI();
@@ -83,8 +82,8 @@ const main = async () => {
       username: 'Notion通知',
       content: sendMsg
     }
-    // await discrod(discordPostData);
-    console.log(discordPostData);
+    await discrod(discordPostData);
+    // console.log(discordPostData);
     logging();
 }
 

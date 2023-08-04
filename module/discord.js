@@ -4,7 +4,7 @@ require('dotenv').config()
 
 let URL = process.env.DISCORD_WEBHOOK_URL_CI;
 
-if(process.platform === `darwin`){
+if(process.env.CODESPACES){
     URL = process.env.DISCORD_WEBHOOK_URL;
 }
 
