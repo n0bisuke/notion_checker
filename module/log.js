@@ -14,7 +14,7 @@ module.exports = () => {
     const logjson = {
 	    msg: 'success',
 	    time: dayjs().tz().format(),
-        // env: process.env
+        env: process.env
     };
     
     fs.writeFileSync(LOGFILE_NAME, JSON.stringify(logjson));
