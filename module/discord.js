@@ -2,10 +2,12 @@
 
 require('dotenv').config()
 
-let URL = process.env.DISCORD_WEBHOOK_URL_CI;
+let URL = '';
 
 if(process.env.CODESPACES){
     URL = process.env.DISCORD_WEBHOOK_URL;
+}else if(process.env.GITHUB_ACTIONS){
+    URL = process.env.DISCORD_WEBHOOK_URL_CI;
 }
 
 const main = async (postData) => {
