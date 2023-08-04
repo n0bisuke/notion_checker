@@ -14,6 +14,7 @@ class NotionAPI {
         return response;
     }
 
+    
     async getLastEditedBlok(obj){
         //ソート
         const sorted = Object.keys(obj).map(function(key) {
@@ -21,8 +22,8 @@ class NotionAPI {
         }).sort(function(a, b) {
             return (a.last_edited_time > b.last_edited_time) ? -1 : 1;  //オブジェクトの昇順ソート
         });
-        console.log(sorted);
-        console.log(`---`)
+        // console.log(sorted);
+        // console.log(`---`)
 
         //ソートして最新の1件
         const lastEditedBlock = sorted[0];

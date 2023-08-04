@@ -15,27 +15,26 @@ dayjs.extend(require('dayjs/plugin/isBetween'));
 
 // Initializing a client
 const main = async () => {
-    const items = await nClient.getDBbyClass(CLASS);
-    // console.log(items)
-
-    const users = [];
-
-    for await (const item of items) {
-      // console.log(item)
-      const blocks = await nClient.getBlocks(item.id);
-      users.push({
-        id: item.id,
-        studentName: item.properties.title.title[0].plain_text,
-        url: item.url,
-        blocks: blocks,
-        last_edited_time: item.properties["Last edited time"].last_edited_time,
-      });
-    }
+  console.log(`取得開始....`);
+  const items = await nClient.getDBbyClass(CLASS);
+  console.log(`${items.length}件が対象データです。更新データ確認...`)
+  
+  const users = [];
+  for await (const item of items) {
+    // console.log(item)
+    const blocks = await nClient.getBlocks(item.id);
+    users.push({
+      id: item.id,
+      studentName: item.properties.title.title[0].plain_text,
+      url: item.url,
+      blocks: blocks,
+      last_edited_time: item.properties["Last edited time"].last_edited_time,
+    });
+  }
 
     //更新情報一覧
     const updateList = [];
     for await (const user of users) {
-      console.log(user.blocks);
       const lastEditedBlock = await nClient.getLastEditedBlok(user.blocks.results); //最新の変更があったブロックを取得
       const item = {
         studentName: user.studentName,
@@ -65,8 +64,11 @@ const main = async () => {
       console.log(update.block.last_edited_time,editTimeJP)
       if(dayjs(editTimeJP).isBetween(oneHAgo, currentTime)){
         console.log(`${betweenH}時間以内の変更あり`);
+        
         // console.log(update)
-        sendMsg += `[最終更新: ${editTimeJP}] ${update.studentName}さんのNotionページ( ${update.url} )を${update.block.last_edited_user?.name}さんが更新。 ${update.block.text} \n`;
+        sendMsg += `[最終更新: ${editTimeJP}] ${update.studentName}さんの[Notionページ](${update.url})を${update.block.last_edited_user?.name}さんが更新。 ${update.block.text} \n`;
+
+
         // console.log(sendMsg);
         lastEditAvater = update.block.last_edited_user?.avatar_url; //Disocrd投稿するアバター
       }else{
