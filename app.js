@@ -1,8 +1,11 @@
 require('dotenv').config()
 
+const CLASS = 'PO08'; //今期のクラス
+
 const NotionAPI = require('./module/notion.js');
 const discrod = require('./module/discord.js');
 const nClient = new NotionAPI();
+const logging = require('./module/log.js');
 
 const dayjs = require('dayjs');
 dayjs.extend(require('dayjs/plugin/timezone'));
@@ -12,31 +15,33 @@ dayjs.extend(require('dayjs/plugin/isBetween'));
 
 // Initializing a client
 const main = async () => {
-    const items = await nClient.getDBbyClass('po-07');
+    const items = await nClient.getDBbyClass(CLASS);
+    // console.log(items)
 
     const users = [];
+
     for await (const item of items) {
-      const blockId = item.id;
-      const items = await nClient.getBlocks(blockId);
-
-      items.results.studentName = item.properties.Name.title[0].plain_text; //名前追加
-      items.results.url = item.url; //URL追加
-
-      users.push(items.results);
+      // console.log(item)
+      const blocks = await nClient.getBlocks(item.id);
+      users.push({
+        id: item.id,
+        studentName: item.properties.title.title[0].plain_text,
+        url: item.url,
+        blocks: blocks,
+        last_edited_time: item.properties["Last edited time"].last_edited_time,
+      });
     }
-    
+
     //更新情報一覧
     const updateList = [];
     for await (const user of users) {
-      const lastEditedBlock = await nClient.getLastEditedBlok(user); //最新の変更があったブロックを取得
+      console.log(user.blocks);
+      const lastEditedBlock = await nClient.getLastEditedBlok(user.blocks.results); //最新の変更があったブロックを取得
       const item = {
         studentName: user.studentName,
         url: user.url,
         block: lastEditedBlock
       }
-      
-      // console.log(item);
-      // console.log(`---????`);
 
       updateList.push(item);
     }
@@ -77,7 +82,9 @@ const main = async () => {
       username: 'Notion通知',
       content: sendMsg
     }
-    await discrod(discordPostData);
+    // await discrod(discordPostData);
+    console.log(discordPostData);
+    logging();
 }
 
 main();

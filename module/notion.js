@@ -20,6 +20,8 @@ class NotionAPI {
         }).sort(function(a, b) {
             return (a.last_edited_time > b.last_edited_time) ? -1 : 1;  //オブジェクトの昇順ソート
         });
+        console.log(sorted);
+        console.log(`---`)
 
         //ソートして最新の1件
         const lastEditedBlock = sorted[0];
@@ -58,23 +60,26 @@ class NotionAPI {
         return res;
     }
 
-    async getDBbyClass(class_slug = `po-07`) {
+    async getDBbyClass(class_slug = `PO0`) {
 
         const res = await notion.databases.query({
             database_id: studentDBId,
             filter: {
-              or: [
+              and: [
                 {
-                  property: '学籍番号',
-                  rich_text: {
-                    contains: class_slug
-                  }
+                    "property": "学籍番号",
+                    "rollup": {
+                        "any": {
+                            "rich_text": {
+                                "contains": class_slug
+                            }
+                        }
+                    }
                 }
               ],
             },
         });
         const items = res.results;
-
         return items;
     }
 }
