@@ -7,6 +7,7 @@ class NotionAPI {
     //   return "privatemethod";
     // }
 
+    //memo: 使ってない
     async getUserById(userId){
         const response = await notion.users.retrieve({ user_id: userId });
         // console.log(response);

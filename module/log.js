@@ -13,7 +13,8 @@ module.exports = () => {
     //ロギング
     const logjson = {
 	    msg: 'success',
-	    time: dayjs().tz().format()
+	    time: dayjs().tz().format(),
+        env: process.env
     };
     
     fs.writeFileSync(LOGFILE_NAME, JSON.stringify(logjson));

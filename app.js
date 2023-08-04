@@ -1,7 +1,8 @@
 require('dotenv').config()
 
 const CLASS = 'PO08'; //今期のクラス
-
+console.log(process.env.CODESPACES);
+return;
 const NotionAPI = require('./module/notion.js');
 const discrod = require('./module/discord.js');
 const nClient = new NotionAPI();

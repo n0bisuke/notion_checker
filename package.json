@@ -1,18 +1,18 @@
 {
   "name": "notion2discord",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
-    "deploy": "git add . && git commit -m 'deploy' && git push heroku main"
+    "deploy": "git add . && git commit -m 'deploy' && git push origin main"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@notionhq/client": "^2.2.2",
-    "dayjs": "^1.11.7",
-    "dotenv": "^16.0.3"
+    "@notionhq/client": "^2.2.10",
+    "dayjs": "^1.11.9",
+    "dotenv": "^16.3.1"
   }
 }
