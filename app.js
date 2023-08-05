@@ -64,10 +64,14 @@ const main = async () => {
       console.log(update.block.last_edited_time,editTimeJP)
       if(dayjs(editTimeJP).isBetween(oneHAgo, currentTime)){
         console.log(`${betweenH}時間以内の変更あり`);
-        
-        // console.log(update)
-        sendMsg += `[最終更新: ${editTimeJP}] ${update.studentName}さんの[Notionページ](${update.url})を${update.block.last_edited_user?.name}さんが更新。 ${update.block.text} \n`;
 
+         //タイトルの"_詳細"の部分を削除
+        const studentName = (update.studentName) ? update.studentName.split('_')[0] : '';
+        // console.log(update.studentName, student);
+        sendMsg += `[最終更新: ${editTimeJP}] ${studentName}さんの[メンタリング情報](${update.url})を${update.block.last_edited_user?.name}さんが更新。 ${update.block.text} \n\n`;
+        // sendMsg += "`"+page_url[0]+"'_"+page_url[1]+"` \n";
+        // sendMsg += "_" + "\n";
+        // sendMsg += `_[対象ページ](${update.url})  \n`;
 
         // console.log(sendMsg);
         lastEditAvater = update.block.last_edited_user?.avatar_url; //Disocrd投稿するアバター
