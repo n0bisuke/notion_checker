@@ -16,6 +16,7 @@ dayjs.extend(require('dayjs/plugin/isBetween'));
 // Initializing a client
 const main = async () => {
   console.log(`取得開始....`);
+  console.log(`対象クラス:`, process.env.DISCORD_WEBHOOK_URL);
   const items = await nClient.getDBbyClass(CLASS);
   console.log(`${items.length}件が対象データです。更新データ確認...`)
   
@@ -35,14 +36,18 @@ const main = async () => {
     //更新情報一覧
     const updateList = [];
     for await (const user of users) {
-      const lastEditedBlock = await nClient.getLastEditedBlok(user.blocks.results); //最新の変更があったブロックを取得
-      const item = {
-        studentName: user.studentName,
-        url: user.url,
-        block: lastEditedBlock
+      try {
+        // console.log(`[対象]${user.studentName}`);
+        const lastEditedBlock = await nClient.getLastEditedBlok(user.blocks.results); //最新の変更があったブロックを取得
+        const item = {
+          studentName: user.studentName,
+          url: user.url,
+          block: lastEditedBlock
+        }
+        updateList.push(item);        
+      } catch (error) {
+        console.log(`エラーが発生しました。`,error);
       }
-
-      updateList.push(item);
     }
 
     //時間を確認
@@ -88,8 +93,15 @@ const main = async () => {
       username: 'Notion通知',
       content: sendMsg
     }
-    await discrod(discordPostData);
-    // console.log(discordPostData);
+
+    try {
+      // console.log(`----`,discordPostData);
+      await discrod(discordPostData);      
+    } catch (error) {
+      console.log(`エラーが発生しました。`,error);
+    }
+
+
     logging();
 }
 
