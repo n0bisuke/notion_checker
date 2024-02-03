@@ -32,3 +32,7 @@ NT_STUDENT_DB_ID=${{secrets.NT_STUDENT_DB_ID}}
 NT_API_KEY=${{secrets.NT_API_KEY}}
 DISCORD_WEBHOOK_URL=${{secrets.DISCORD_WEBHOOK_URL}}
 ```
+
+## notion
+
+https://www.notion.so/my-integrations
