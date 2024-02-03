@@ -46,7 +46,7 @@ jobs:
         NT_API_KEY=${{secrets.NT_API_KEY}}
         DISCORD_WEBHOOK_URL=${{secrets.DISCORD_WEBHOOK_URL}}
         DISCORD_WEBHOOK_URL_CI=${{secrets.DISCORD_WEBHOOK_URL_CI}}
-        bun start
+        npm start
 
     - name: git commit & push
       run: |
