@@ -36,8 +36,8 @@ jobs:
         restore-keys: npm-
 
     # インストール
-    - name: bun install 
-      run: npm i -g bun && bun install
+    - name: npm 
+      run: npm install
     
     # 実際のコマンド
     - name: start action...
