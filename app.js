@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 const CLASS = 'PO09'; //今期のクラス
 
 const NotionAPI = require('./module/notion.js');
@@ -16,7 +14,7 @@ dayjs.extend(require('dayjs/plugin/isBetween'));
 // Initializing a client
 const main = async () => {
   console.log(`取得開始....`);
-  console.log(`対象クラス:`, process.env.DISCORD_WEBHOOK_URL);
+  // console.log(`対象クラス:`, process.env.DISCORD_WEBHOOK_URL);
   const items = await nClient.getDBbyClass(CLASS);
   console.log(`${items.length}件が対象データです。更新データ確認...`)
   
