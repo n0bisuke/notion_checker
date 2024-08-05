@@ -1,4 +1,4 @@
-const CLASS = 'PO09'; //今期のクラス
+const CLASS = 'PO10'; //今期のクラス
 
 const NotionAPI = require('./module/notion.js');
 const discrod = require('./module/discord.js');
