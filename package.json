@@ -5,6 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
+    "mentoring": "node mentoring.js",
+    "seiseki": "node seiseki.js",
     "dev": "node --env-file=.env app.js",
     "deploy": "git add . && git commit -m 'deploy' && git push origin main"
   },
